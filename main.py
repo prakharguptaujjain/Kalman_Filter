@@ -145,37 +145,39 @@ def normal_run():
         ("Constant", np.array([0.1, 0.1, -0.01])),
         ("Time-dependent", lambda t: np.array([0.1 * np.sin(t), 0.1 * np.cos(t), -0.01 * t]))
     ]
-    # for delta_t in delta_t_values:
-    #     for (proc_noise_mult, meas_noise_mult) in noise_multipliers:
-    #         for acc_type, acceleration in acceleration_types:
-    #             # Create Kalman filter with adjusted noise
-    #             process_noise_cov = np.diag([0.02, 0.02, 0.02, 0.01, 0.01, 0.01]) * proc_noise_mult
-    #             measurement_noise_cov = np.diag([0.05, 0.05, 0.05, 0.02, 0.02, 0.02]) * meas_noise_mult
+    for delta_t in delta_t_values:
+        for (proc_noise_mult, meas_noise_mult) in noise_multipliers:
+            for acc_type, acceleration in acceleration_types:
+                # Create Kalman filter with adjusted noise
+                process_noise_cov = np.diag([0.02, 0.02, 0.02, 0.01, 0.01, 0.01]) * proc_noise_mult
+                measurement_noise_cov = np.diag([0.05, 0.05, 0.05, 0.02, 0.02, 0.02]) * meas_noise_mult
 
-    #             # Instantiate Kalman filter
-    #             kalman_filter = MissileTrackerKalmanFilter(
-    #                 delta_t, H, process_noise_cov, measurement_noise_cov, initial_state, initial_covariance
-    #             )
+                # Instantiate Kalman filter
+                kalman_filter = MissileTrackerKalmanFilter(
+                    delta_t, H, process_noise_cov, measurement_noise_cov, initial_state, initial_covariance
+                )
 
-    #             # Run simulation based on acceleration type
-    #             if acc_type == "Constant":
-    #                 true_positions, estimated_positions, errors = Util.simulate_trajectory(
-    #                     time_steps, delta_t, int(0.01 / delta_t), initial_position, initial_velocity, acceleration, kalman_filter
-    #                 )
-    #             elif acc_type == "Time-dependent":
-    #                 true_positions, estimated_positions, errors = Util.simulate_trajectory(
-    #                     time_steps, delta_t, int(0.02 / delta_t), initial_position, initial_velocity, acceleration, kalman_filter
-    #                 )
+                # Run simulation based on acceleration type
+                if acc_type == "Constant":
+                    true_positions, estimated_positions, errors = Util.simulate_trajectory(
+                        time_steps, delta_t, int(0.01 / delta_t), initial_position, initial_velocity, acceleration, kalman_filter
+                    )
+                elif acc_type == "Time-dependent":
+                    true_positions, estimated_positions, errors = Util.simulate_trajectory(
+                        time_steps, delta_t, int(0.02 / delta_t), initial_position, initial_velocity, acceleration, kalman_filter
+                    )
 
-    #             # Plot and display results
-    #             title = f"Experiment: Δt={delta_t}, Proc Noise Mult={proc_noise_mult}, Meas Noise Mult={meas_noise_mult}, Accel={acc_type}"
-    #             print(title)
-    #             fig = Util.plot_trajectory(true_positions, estimated_positions, errors, normal_run=False)
-    #             # save fig
-    #             save_name = re.sub(r'[<>:"/\\|?*]', "", title)
-    #             save_name = save_name.replace(" ", "_").replace("Δ", "delta").replace("=", "_").replace(",", "_").replace(".", "_") + ".png"
-    #             os.makedirs("results", exist_ok=True)
-    #             fig.savefig(os.path.join("results", save_name))
+                # Plot and display results
+                title = f"Experiment: Δt={delta_t}, Proc Noise Mult={proc_noise_mult}, Meas Noise Mult={meas_noise_mult}, Accel={acc_type}"
+                print(title)
+                fig = Util.plot_trajectory(true_positions, estimated_positions, errors, normal_run=False)
+                # add parameter values in plt
+                plt.suptitle(title)
+                # save fig
+                save_name = re.sub(r'[<>:"/\\|?*]', "", title)
+                save_name = save_name.replace(" ", "_").replace("Δ", "delta").replace("=", "_").replace(",", "_").replace(".", "_") + ".png"
+                os.makedirs("results", exist_ok=True)
+                fig.savefig(os.path.join("results", save_name))
 
     # create plots when only delta_t is varied
     errors=[]
@@ -189,11 +191,9 @@ def normal_run():
             time_steps, delta_t, int(0.2 / delta_t), initial_position, initial_velocity, np.array([0.1, 0.1, -0.01]), kalman_filter
         )
         rmse_error = np.sqrt(np.mean(np.square(error)))
-        # scale by total true position cnt
-        rmse_error_scaled = rmse_error/len(true_positions)
-        errors.append(rmse_error_scaled)
+        errors.append(rmse_error)
 
-    fig, ax = plt.subplots(2, 2, figsize=(10, 12))
+    fig, ax = plt.subplots(2, 2, figsize=(12, 10))
 
     # Create line plot of errors and delta_t
     ax[0][0].plot(delta_t_values, errors)

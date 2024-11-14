@@ -1,4 +1,6 @@
-## Kalman Filter Implementation
+# Kalman Filter
+
+## Implementation
 
 The Kalman filter is a recursive algorithm used for estimating the state of a dynamic system from a series of measurements. In the context of missile tracking, the Kalman filter is used to estimate the position and velocity of the target aircraft based on noisy measurements from a radar system.
 
@@ -56,11 +58,12 @@ The simulated trajectory can be used to evaluate the performance of the Kalman f
 
 ![result](result.png)
 
-![collage](collage_output.jpg)
-
 - We observe that the Scaled RMSE decreases with an increase in $\Delta t$, which is expected as the parameters change frequently, and the filter cannot keep up with the rapid changes.
 - The Scaled RMSE increases with increased measurement noise, as expected, due to the increased uncertainty in measurements.
 - The results in both constant and variable acceleration do not reveal much about the filter's performance, as the RMSE is unpredictable and does not follow a specific pattern.
+
+Results of kalman filter on various parameters are shown below:
+![collage](collage_output.jpg)
 
 ## Authors
 
