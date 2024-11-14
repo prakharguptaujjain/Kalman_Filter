@@ -1,13 +1,3 @@
----
-title: Kalman Filter
-subtitle: Autonomous Systems
-author: Prakhar Gupta(B21AI027), Adarsh Raj Shrivastava(B21AI003)
-mainfont: DejaVuSerif
-sansfont: DejaVuSans
-monofont: DejaVuSansMono
-mathfont: TeXGyreDejaVuMath-Regular
----
-
 ## Kalman Filter Implementation
 
 The Kalman filter is a recursive algorithm used for estimating the state of a dynamic system from a series of measurements. In the context of missile tracking, the Kalman filter is used to estimate the position and velocity of the target aircraft based on noisy measurements from a radar system.
@@ -66,9 +56,11 @@ The simulated trajectory can be used to evaluate the performance of the Kalman f
 
 ![result](result.png)
 
-- We can see that Scaled RMSE decrease with increase in $delta_t$ which is expected as the parameters are changing very frequently and the filter is not able to matchup the speed of the changes
-- The Scaled RMSE increases with increase in measurement noise which is expected as the noise created uncertainty in the measurements
-- The results in both constant acceleration and variable acceleration doesn't seems to tell us much about the performance of the filter as the RMSE is unpredictable and doesn't follow any pattern
+![collage](collage_output.jpg)
+
+- We observe that the Scaled RMSE decreases with an increase in $\Delta t$, which is expected as the parameters change frequently, and the filter cannot keep up with the rapid changes.
+- The Scaled RMSE increases with increased measurement noise, as expected, due to the increased uncertainty in measurements.
+- The results in both constant and variable acceleration do not reveal much about the filter's performance, as the RMSE is unpredictable and does not follow a specific pattern.
 
 ## Authors
 
