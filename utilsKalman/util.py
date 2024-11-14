@@ -100,6 +100,7 @@ class Util:
         # Error plot
         ax1 = fig.add_subplot(1, 2, 2)
         ax1.plot(errors, label="Tracking Error (Euclidean Distance)")
+        ax1.legend(loc='upper left')
         ax1.set_xlabel("Time Step")
         ax1.set_ylabel("Position Error")
         ax1.set_title("Kalman Filter Tracking Error Over Time")
